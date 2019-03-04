@@ -1,0 +1,19 @@
+body *{
+	font-size: 24px;
+	box-sizing: border-box;
+}
+.calendar{
+	width: 50%;
+	max-width: 500px;
+	min-width: 300px;
+	margin: 0 auto;
+}
+.month_title{
+	margin-bottom: 12px;
+	border-bottom: 1px solid #000;
+}
+.month_body > span, .month_weekday > span{
+	display: inline-block;
+	width: 14%;
+	text-align: right;
+}

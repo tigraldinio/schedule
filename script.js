@@ -1,9 +1,10 @@
 //сегодняшняя дата
+var i, div, wd;
 var d = new Date();
 //количество дней в каждом месяце
 var month_day = [
 	31,
-	new Date(d.getFullYear(), 2, 0).getDate(),
+	new Date(d.getFullYear(), 2, 0).getDate(),//количество дней в феврале
 	31,
 	30,
 	31,
@@ -32,28 +33,58 @@ var month_name_day = [
 ];
 //дни недели
 var weekday = [
-	"Воскресение",
-	"Понедельник",
-	"Втоник",
-	"Среда",
-	"Четверг",
-	"Пятница",
-	"Суббота",
+	"Пн",
+	"Вт",
+	"Ср",
+	"Чт",
+	"Пт",
+	"Сб",
+	"Вс",
 ];
+
 var block = document.querySelector('.calendar');
-var month = document.createElement("div");
-month.className = "month";
-var month_title = document.createElement("div");
-month_title.className = "month_title";
-month_title.innerHTML = month_name_day[d.getMonth()];
-month.appendChild(month_title);
-block.appendChild(month);
-var month_body = document.createElement("div");
-month_body.className = "month_body";
-month.appendChild(month_body);
-var day;
-for(var i = 1; i <= month_day[d.getMonth()]; i++){
-	day = document.createElement("span");
-	day.innerHTML = i;
-	month_body.appendChild(day);
+
+for(i = 0; i < 12; i++){
+	add_month(block, i);
+}
+
+function add_month(block, col){
+	var i,
+		month = document.createElement("div"),
+		month_title = document.createElement("div"),
+		month_weekday = document.createElement("div"),
+		month_body = document.createElement("div");
+
+	month.className = "month";
+
+	month_title.className = "month_title";
+	month_title.innerHTML = month_name_day[col];
+	month.appendChild(month_title);
+
+	month_weekday.className = "month_weekday";
+	for(i = 0; i < weekday.length; i++){
+		div = document.createElement("span");
+		div.innerHTML = weekday[i];
+		month_weekday.appendChild(div);
+	}
+	month.appendChild(month_weekday);
+
+	month_body.className = "month_body";
+	month.appendChild(month_body);
+
+	wd = new Date(d.getFullYear(), col).getDay()
+	if(wd > 0){
+		for(i = 1; i < wd; i++){
+			div = document.createElement("span");
+			month_body.appendChild(div);
+		}
+	}
+
+	for(i = 1; i <= month_day[col]; i++){
+		div = document.createElement("span");
+		div.innerHTML = i;
+		month_body.appendChild(div);
+	}
+
+	block.appendChild(month);
 }
