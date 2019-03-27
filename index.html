@@ -10,28 +10,29 @@
 	<div class="calendar central_block">
 	</div>
 	<div class="tabs_list central_block">
-		<label>
-			Расписание
-			<input type="radio" name="tab" value="tab_1">
-		</label>
-		<label>
-			События
-			<input type="radio" name="tab" value="tab_2">
-		</label>
-		<div>
-			<div class="tab tab_1">
-				123123
-			</div>
-			<div class="tab tab_2">
-				123123
-			</div>
+		<ul>
+			<li><a href="#tab_1" class="link_tab">Расписание</a></li>
+			&nbsp;|
+			<li><a href="#tab_2" class="link_tab">События</a></li>
+		</ul>
+		<div class="tab" id="tab_1">
+			<div></div>
+			<button class="show_popup" data-form="add_schedule">Добавить расписание</button>
+		</div>
+		<div class="tab" id="tab_2">
+			<div></div>
+			<button class="show_popup" data-form="add_event">Добавить событие</button>
 		</div>
 	</div>
-	<div class="popup">
-		<form class="event_form central_block">
+	<div class="popup" id="add_event">
+		<form class="event_form central_block" name="add_event" onsubmit="false">
 			<label class="event_block">
-				<div>Название события</div>
+				<div>Название</div>
 				<input type="text" name="event_name">
+			</label>
+			<label class="event_block">
+				<div>Предполагаемая дата</div>
+				<input type="text" name="event_date" value="" disabled>
 			</label>
 			<label class="event_block">
 				<div>Время начала</div>
@@ -64,13 +65,90 @@
 				</select>
 			</label>
 			<label class="event_block">
-				<div>Повтор?</div>
-				<input type="Checkbox" name="event_repeat">
+				<div>Повтор каждый год?</div>
+				<input type="Checkbox" name="event_repeat" value="1">
 			</label>
 			<input type="submit" name="save" value="Сохранить">
-			<input type="submit" name="del" value="Удалить">
+		</form>
+	</div>
+	<div class="popup" id="add_schedule">
+		<form class="event_form central_block" name="add_schedule">
+			<label class="event_block">
+				<div>Название</div>
+				<input type="text" name="event_name">
+			</label>
+			<label class="event_block">
+				<div>Время начала</div>
+				<select name="event_time_start">
+					<option value="00">00:00</option>
+					<option value="01">01:00</option>
+					<option value="02">02:00</option>
+					<option value="03">03:00</option>
+					<option value="04">04:00</option>
+					<option value="05">05:00</option>
+					<option value="06">06:00</option>
+					<option value="07">07:00</option>
+					<option value="08">08:00</option>
+					<option value="09">09:00</option>
+					<option value="10">10:00</option>
+					<option value="11">11:00</option>
+					<option value="12">12:00</option>
+					<option value="13">13:00</option>
+					<option value="14">14:00</option>
+					<option value="15">15:00</option>
+					<option value="16">16:00</option>
+					<option value="17">17:00</option>
+					<option value="18">18:00</option>
+					<option value="19">19:00</option>
+					<option value="20">20:00</option>
+					<option value="21">21:00</option>
+					<option value="22">22:00</option>
+					<option value="23">23:00</option>
+					<option value="24">24:00</option>
+				</select>
+			</label>
+			<label class="event_block">
+				<div>Время завершения</div>
+				<select name="event_time_end">
+					<option value="00">00:00</option>
+					<option value="01">01:00</option>
+					<option value="02">02:00</option>
+					<option value="03">03:00</option>
+					<option value="04">04:00</option>
+					<option value="05">05:00</option>
+					<option value="06">06:00</option>
+					<option value="07">07:00</option>
+					<option value="08">08:00</option>
+					<option value="09">09:00</option>
+					<option value="10">10:00</option>
+					<option value="11">11:00</option>
+					<option value="12">12:00</option>
+					<option value="13">13:00</option>
+					<option value="14">14:00</option>
+					<option value="15">15:00</option>
+					<option value="16">16:00</option>
+					<option value="17">17:00</option>
+					<option value="18">18:00</option>
+					<option value="19">19:00</option>
+					<option value="20">20:00</option>
+					<option value="21">21:00</option>
+					<option value="22">22:00</option>
+					<option value="23">23:00</option>
+					<option value="24">24:00</option>
+				</select>
+			</label>
+			<label class="event_block">
+				<div>Повтор по каким дням</div>
+				<label><input type="checkbox" name="event_repeat[]" value="0">Понедельник</label><br />
+				<label><input type="checkbox" name="event_repeat[]" value="1">Вторние</label><br />
+				<label><input type="checkbox" name="event_repeat[]" value="2">Среда</label><br />
+				<label><input type="checkbox" name="event_repeat[]" value="3">Четверг</label><br />
+				<label><input type="checkbox" name="event_repeat[]" value="4">Пятница</label><br />
+				<label><input type="checkbox" name="event_repeat[]" value="5">Суббота</label><br />
+				<label><input type="checkbox" name="event_repeat[]" value="6">Воскресение</label><br />
+			</label>
+			<input type="submit" name="save" value="Сохранить">
 		</form>
 	</div>
 	<script type="text/javascript" src="script.js"></script>
-</body>
 </html>

@@ -6,6 +6,8 @@ body *{
 	font-family: Comic Sans MS;
 	box-sizing: border-box;
 }
+
+/*Календарь*/
 .central_block{
 	width: 50%;
 	max-width: 500px;
@@ -44,31 +46,97 @@ body *{
 	display: inline-block;
 	width: 14%;
 	text-align: right;
+	padding: 0 4%;
 }
+.month_body .holiday{
+	background-color: #ff8080;
+}
+.month_body .select_date{
+	background-color: #808080;
+}
+.event_list:after, .schedule_list:after{
+	display: inline;
+	position: absolute;
+	content: "";
+	width: 10px;
+	height: 10px;
+	background-color: #000080;
+    border-radius: 10px;
+}
+.schedule_list:after{
+	background-color: #008000;
+}
+/*Табы*/
 .tabs_list{
 	margin-top: 40px; 
 }
 .tabs_list .tab{
 	display: none;
 }
-.tabs_list > label{
+.tabs_list > ul{
+	padding: 0px;
+}
+.tabs_list > ul > li{
 	cursor: pointer;
+	list-style: none;
+	display: inline;
 }
-.tabs_list input[value="tab_1"]:checked ~ div{
-	border: 1px solid #000;
+.link_tab{
+	text-decoration: none;
+	color: #000;
 }
-.tabs_list input[value="tab_1"]:checked ~ div > .tab_1,
-	.tabs_list input[value="tab_2"]:checked ~ div > .tab_2{
+.link_tab:after{
+	display: inline;
+	position: absolute;
+	content: "";
+	width: 10px;
+	height: 10px;
+	background-color: #008000;
+    border-radius: 10px;
+}
+.link_tab[href="#tab_2"]:after{
+	background-color: #000080;
+}
+.tab:target{
 	display: unset;
 }
-/*
-.tabs_list .name_tabs input[type="radio"]{
-	display: none;
+.tabs_list .event{
+	margin-bottom: 10px;
 }
-*/
+.tabs_list .event span:nth-child(1){
+    width: 20%;
+    display: inline-block;
+}
+.tabs_list .event span:nth-child(2){
+    width: 75%;
+    display: inline-block;
+}
+.tabs_list .event .remove:before{
+	content: "x";
+	color: #ff8080;
+}
+
+/*Форма*/
+.popup{
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: max-content;
+	min-width: 100vw;
+	height: max-content;
+	min-height: 100vh;
+	background-color: rgb(0,0,0, 0.9);
+}
+.event_form{
+	background-color: #fff;
+	padding: 20px;
+    margin: auto;
+}
 .event_form .event_block{
 	display: block;
 	width: 100%;
+	margin-bottom: 10px;
 }
 .event_form .event_block input[type="text"], .event_form .event_block select{
 	width: 100%;
