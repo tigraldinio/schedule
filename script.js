@@ -283,13 +283,23 @@ events.add_list = function(){
 	}
 }
 
+//функция сортиовки
+events.sort = function(event_1, event_2) {
+	if(event_1.key.substr(0, 1) == 1){
+		return event_1.key.substr(1, 2) - event_2.key.substr(1, 2);
+	}
+	return event_1.key.substr(7, 2) - event_2.key.substr(7, 2);
+}
+
 events.add_list_elements = function(node, list){
+
+	list.sort(events.sort);
+
 	var div, remove, time;
 	for(var i = 0; i < list.length; i++){
 		time = 	q.create('span');
-
 		if(list[i].key.substr(0, 1) == 1){
-			time.innerHTML = list[i].key.substr(3, 2) + ":00 - " + list[i].key.substr(5, 2) +":00";
+			time.innerHTML = list[i].key.substr(1, 2) + ":00 - " + list[i].key.substr(3, 2) +":00";
 		}
 		else{
 			time.innerHTML = list[i].key.substr(7, 2) + ":00";
