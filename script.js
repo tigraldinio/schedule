@@ -3,7 +3,7 @@ var i,
 	div_slider,
 	wd,
 	d = new Date();//сегодняшняя дата
-	today = ((d.getUTCDate() < 10) ? "0" + d.getUTCDate() : d.getUTCDate()) + "." + ((d.getUTCDay() < 10) ? "0" + d.getUTCDay() : d.getUTCDay());
+	today = ((d.getDate() < 10) ? "0" + d.getDate() : d.getDate()) + "." + ((d.getMonth() < 9) ? "0" + (d.getMonth() + 1): (d.getMonth() + 1));
 
 
 /*Вспомогательные функции*/
@@ -37,6 +37,11 @@ q.create = function(node, attr){
 		}
 		if(attr.html != undefined){
 			element.innerHTML = attr.html;
+		}
+		if(attr.dataset != undefined && attr.dataset.length > 0){
+			for(var i = 0; i < attr.dataset.length; i++){
+				element.setAttribute("data-"+attr.dataset[i].name, attr.dataset[i].value);
+			}
 		}
 		if(attr.child != undefined && attr.child.length > 0){
 			for(var i = 0; i < attr.child.length; i++){
@@ -129,11 +134,25 @@ function get_month(col){
 			month_body.appendChild(div);
 		}
 	}
-	m = "m_";
+	m = "";
 	m += (col < 9 ) ?  "0" + (col + 1).toString() : (col + 1).toString();
 
 	for(i = 1; i <= month_day[col]; i++,  day_count++){
-		div = q.create("span", {html: i, id: (i < 10) ? m + "0" + (i).toString() : m + (i).toString()});
+		div = q.create(
+			"span",
+			{
+				html: i,
+				dataset:[
+				{
+					name: 'date',
+					value: (i < 10) ? m + "0" + (i).toString() : m + (i).toString(),
+				},
+				{
+					name: 'weekday',
+					value: day_count,
+				}
+				]
+			});
 		
 		if(day_count % 6 == 0 || day_count % 7 == 0){
 			if(day_count % 7 == 0) day_count = 0;
@@ -149,7 +168,7 @@ function get_month(col){
 					select_date.classList.remove('select_date');
 				}
 				this.classList.add('select_date');
-				q('#add_event input[name="event_date"]')[0].value = this.id.substr(4, 2) + '.' + this.id.substr(2, 2);
+				q('#add_event input[name="event_date"]')[0].value = this.dataset.date.substr(2, 2) + '.' + this.dataset.date.toString().substr(0, 2);
 				events.add_list();
 			}
 		});
@@ -169,13 +188,21 @@ events.schedule_list = {};
 events.select_date = function(){
 	var date = q('.select_date')[0];
 	if(date  !== undefined){
-		return date.id;
+		return date.dataset.date;
 	}
 	else{
-		return "m_" +today.substr(3) + today.substr(0, 2);
+		return today.substr(3) + today.substr(0, 2);
 	}
 }
-
+events.select_weekday = function(){
+	var date = q('.select_date')[0];
+	if(date  !== undefined){
+		return date.dataset.weekday;
+	}
+	else{
+		return (parseInt(d.getDay()) == 0) ? 7 : d.getDay();
+	}
+}
 //обновление переменных event_list, schedule_list
 events.init = function(){
 	
@@ -200,7 +227,7 @@ events.init = function(){
 					localStorage.removeItem(key);
 				}
 				else{
-					m = "m_" + key.substr(3, 2) + key.substr(1, 2);
+					m = key.substr(3, 2) + key.substr(1, 2);
 					if(events.event_list[m] == undefined){
 						events.event_list[m] = [];
 					}
@@ -208,12 +235,29 @@ events.init = function(){
 						name: localStorage[key],
 						key: key,
 					});
-					q("#" + m)[0].classList.add('event_list');
+					q("[data-date='" + m + "']")[0].classList.add('event_list');
 				}
 			}
 			//расписание
 			else if(key.substr(0, 1) == 1){
-				console.log(key);
+				m = key.substr(5);
+				for(var i = 0; i <= m.length; i++){
+					if(m[i] == "0"){
+						continue;
+					}
+					if(events.schedule_list[i + 1] == undefined){
+						events.schedule_list[i + 1] = [];
+					}
+					events.schedule_list[i + 1].push({
+						name: localStorage[key],
+						key: key,
+					});
+					q("[data-weekday='" + (i + 1) + "']").forEach(function(elem){
+						elem.classList.add('schedule_list');
+					});
+				}
+
+				//console.log(key);
 			}
 		}
 	}
@@ -230,8 +274,8 @@ events.add_list = function(){
 	tab_1.innerHTML = "";
 	tab_2.innerHTML = "";
 
-	if(events.schedule_list[events.select_date()] !== undefined){
-		events.add_list_elements(tab_1, events.schedule_list[events.select_date()])
+	if(events.schedule_list[events.select_weekday()] !== undefined){
+		events.add_list_elements(tab_1, events.schedule_list[events.select_weekday()])
 	}
 
 	if(events.event_list[events.select_date()] !== undefined){
@@ -415,7 +459,7 @@ q.add_event(q('form'), 'submit', function(){
 		
 	}
 
-	if(this.name == 'event_name'){
+	if(this.name == 'add_event'){
 
 		if(data.event_name == ""){
 			alert("Нет название!");
@@ -438,7 +482,7 @@ q.add_event(q('form'), 'submit', function(){
 			select_date = q('.select_date')[0];
 
 			if(select_date !== undefined){
-				q('#add_event input[name="event_date"]')[0].value = select_date.id.substr(4, 2) + "." + select_date.id.substr(2, 2);
+				q('#add_event input[name="event_date"]')[0].value = select_date.dataset.date.substr(2, 2) + "." + select_date.dataset.date.substr(0, 2);
 			}
 			else{
 				q('#add_event input[name="event_date"]')[0].value = today;
