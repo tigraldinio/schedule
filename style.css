@@ -89,6 +89,9 @@ body *{
 .tabs_list .tab{
 	display: none;
 }
+.tabs_list input[name="tab_radio"]{
+	display:none;
+}
 .tabs_list > ul{
 	padding: 0px;
 }
@@ -100,6 +103,7 @@ body *{
 .link_tab{
 	text-decoration: none;
 	color: #000;
+	cursor: pointer;
 }
 .link_tab:after{
 	display: inline;
@@ -110,10 +114,19 @@ body *{
 	background-color: #008000;
     border-radius: 6px;
 }
-.link_tab[href="#tab_2"]:after{
+.link_tab[for="tab_radio_2"]:after{
 	background-color: #000080;
 }
-.tab:target{
+#tab_radio_1:checked ~ #tab_1{
+	display: unset;
+}
+#tab_radio_1:checked ~ ul label[for="tab_radio_1"]{
+	text-decoration: underline;
+}
+#tab_radio_2:checked ~ ul label[for="tab_radio_2"]{
+	text-decoration: underline;
+}
+#tab_radio_2:checked ~ #tab_2{
 	display: unset;
 }
 .tabs_list .event{
@@ -138,6 +151,7 @@ body *{
 .tabs_list .event .remove:before{
 	content: "x";
 	color: #ff8080;
+	cursor: pointer;
 }
 
 /*Форма*/
